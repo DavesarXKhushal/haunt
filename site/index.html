@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>haunt — find the skills haunting your context window</title>
+<title>haunt -- find the skills haunting your context window</title>
 <meta name="description" content="haunt audits Claude Code skills against real session transcripts, not guesses. Catches ghost skills, broken references, and duplicate names.">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -25,7 +25,7 @@
     <h1>Find the skills haunting<br>your context window.</h1>
     <p class="lede">
       haunt audits a Claude Code skills directory against what actually
-      happened — not a guess. It cross-references every installed
+      happened -- not a guess. It cross-references every installed
       <code class="inline">SKILL.md</code> with your own session history.
     </p>
     <div class="cta-row">
@@ -50,13 +50,13 @@ haunt scanned 42 skill(s), matched against 310 real invocation(s)
     <h2>The problem</h2>
     <h3>A skill with a good description can still be dead weight.</h3>
     <p>
-      Every Claude Code skill linter checks structure — valid frontmatter,
+      Every Claude Code skill linter checks structure -- valid frontmatter,
       a non-empty description, a link that resolves. None of them check
       whether the skill has ever actually fired. A skill can read
       perfectly, pass every structural check, and still never once get
       invoked, while silently costing tokens every time its description
       looks close enough to trigger consideration. Nothing in the file
-      itself tells you that. Your session transcripts do — haunt reads
+      itself tells you that. Your session transcripts do -- haunt reads
       them.
     </p>
   </section>

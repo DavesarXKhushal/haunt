@@ -16,7 +16,7 @@ duplicate names, and thin descriptions.
 - When a skills directory has grown past a dozen or so entries and nobody
   has audited it end to end.
 - When a skill's description seems right but the agent never seems to
-  pick it — this checks whether it has ever fired at all.
+  pick it -- this checks whether it has ever fired at all.
 
 ## How to run it
 
@@ -28,8 +28,8 @@ Read the JSON output, summarize for the user:
 
 - total skills scanned and total real invocations matched
 - every `error`-level finding (broken references, duplicate names,
-  missing descriptions, hallucinated invocations) — these need a fix
-- the ghost-skill list — these need a decision: fix the description,
+  missing descriptions, hallucinated invocations) -- these need a fix
+- the ghost-skill list -- these need a decision: fix the description,
   merge it into something that does fire, or archive it
 
 Do not silently delete or archive anything. Report the findings and let

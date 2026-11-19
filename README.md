@@ -11,13 +11,13 @@ references inside your skills are already broken.
 
 Every other skill linter checks structure: valid frontmatter, a
 description that isn't empty, a link that resolves. `haunt` does that too,
-but its real claim is different — it is the only one that checks your
+but its real claim is different -- it is the only one that checks your
 skills against *what actually ran*, using the transcripts Claude Code
 already writes to `~/.claude/projects`.
 
 ## Why this exists
 
-We ran it against the Hermes agent that runs LocalHost — 379 installed skills,
+We ran it against the Hermes agent that runs LocalHost -- 379 installed skills,
 built up over months of real daily use.
 
 ```
@@ -28,8 +28,8 @@ haunt scanned 379 skill(s), matched against 42,639 real invocation(s)
 ```
 
 One skill, `meeting-intelligence`, accounts for over 33,000 of those
-invocations by itself. A hundred and twenty-one others — nearly a third of
-everything installed — have a polished `SKILL.md`, a plausible
+invocations by itself. A hundred and twenty-one others -- nearly a third of
+everything installed -- have a polished `SKILL.md`, a plausible
 description, a reasonable name, and have never once fired. The run also
 caught ten broken file references and twenty-four descriptions too thin
 for an agent to reliably route on, in a tree nobody had audited end to
