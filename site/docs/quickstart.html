@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quickstart - haunt docs</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="topbar-brand" href="../index.html"><span class="mark"></span>haunt</a>
+  <div class="topbar-right">
+    <a href="../docs/quickstart.html">Docs</a>
+    <a class="gh" href="https://github.com/DavesarXKhushal/haunt">GitHub</a>
+  </div>
+</div>
+<div class="layout">
+  <nav class="sidebar"><div class="group"><div class="group-label">Overview</div><a class="link" href="../index.html">Introduction</a></div><div class="group"><div class="group-label">Docs</div><a class="link active" href="../docs/quickstart.html">Quickstart</a><a class="link" href="../docs/cli-reference.html">CLI reference</a><a class="link" href="../docs/how-it-works.html">How it works</a></div></nav>
+  <main class="content">
+    <h1>Quickstart</h1>
+    <p class="subtitle">Install haunt and run your first audit in under a minute.</p>
+    
+<h2>Install</h2>
+<pre>pip install haunt</pre>
+<p>Or run it with no install at all:</p>
+<pre>uvx haunt /path/to/skills</pre>
+
+<h2>Run it</h2>
+<pre>haunt .claude/skills</pre>
+<p>That scans every <code class="inline">SKILL.md</code> under the given directory, reads your Claude Code session transcripts from <code class="inline">~/.claude/projects</code>, and prints every finding: broken references, duplicate names, thin descriptions, and skills that have never been invoked.</p>
+
+<div class="callout">
+<strong>No telemetry under ~/.claude/projects?</strong> Some agent runtimes keep their own usage sidecar instead. Point haunt at it directly with <code class="inline">--usage-file</code>, documented on the <a href="cli-reference.html">CLI reference</a> page.
+</div>
+
+<h2>Read the output</h2>
+<p>Each finding carries a level and a code:</p>
+<ul>
+  <li><strong>error</strong> - something is actually broken: a dead link, a duplicate name, a missing description, or an invocation of a skill that no longer exists.</li>
+  <li><strong>warn</strong> - a ghost skill, or a description too thin for an agent to route on reliably. Worth a look, not necessarily a bug.</li>
+</ul>
+
+<h2>Wire it into CI</h2>
+<pre>- name: Audit skills
+  run: uvx haunt .claude/skills --fail-on-ghosts</pre>
+<p><code class="inline">--fail-on-ghosts</code> makes the whole run exit non-zero the moment any installed skill has zero real invocations, so a dead skill gets caught in review instead of sitting in the tree for months.</p>
+
+<div class="page-nav">
+  <a href="cli-reference.html">Next: CLI reference →</a>
+</div>
+
+    <footer class="page-footer">github.com/DavesarXKhushal/haunt</footer>
+  </main>
+</div>
+</body>
+</html>

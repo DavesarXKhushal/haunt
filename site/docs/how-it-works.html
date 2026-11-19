@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works - haunt docs</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="topbar-brand" href="../index.html"><span class="mark"></span>haunt</a>
+  <div class="topbar-right">
+    <a href="../docs/quickstart.html">Docs</a>
+    <a class="gh" href="https://github.com/DavesarXKhushal/haunt">GitHub</a>
+  </div>
+</div>
+<div class="layout">
+  <nav class="sidebar"><div class="group"><div class="group-label">Overview</div><a class="link" href="../index.html">Introduction</a></div><div class="group"><div class="group-label">Docs</div><a class="link" href="../docs/quickstart.html">Quickstart</a><a class="link" href="../docs/cli-reference.html">CLI reference</a><a class="link active" href="../docs/how-it-works.html">How it works</a></div></nav>
+  <main class="content">
+    <h1>How it works</h1>
+    <p class="subtitle">Two data sources, zero network calls, zero LLM calls.</p>
+    
+<h2>Static analysis</h2>
+<p>haunt walks the given directory for every <code class="inline">SKILL.md</code>, parses its YAML frontmatter and markdown body with plain regular expressions, and checks:</p>
+<ul>
+  <li>every relative link in the body resolves to a real file</li>
+  <li>the frontmatter has a non-empty, non-trivial <code class="inline">description</code></li>
+  <li>no two files resolve to the same skill <code class="inline">name</code></li>
+</ul>
+
+<h2>Real-usage cross-reference</h2>
+<p>This is the part that's different from every other skill linter. Claude Code already writes a JSONL transcript of every session to <code class="inline">~/.claude/projects/&lt;project&gt;/&lt;session&gt;.jsonl</code>. Each line is a message; an assistant message that calls a skill contains a <code class="inline">tool_use</code> block with <code class="inline">name: "Skill"</code> and an <code class="inline">input.skill</code> field naming it.</p>
+<p>haunt reads every transcript under that directory, counts how many times each skill name was actually invoked, and cross-references that count against what's installed:</p>
+<ul>
+  <li>a skill with <strong>zero</strong> invocations is a ghost - loaded into context on relevant turns, never used</li>
+  <li>an invocation of a name with <strong>no matching SKILL.md</strong> is a hallucinated invocation - the agent called something that used to exist, or never did</li>
+</ul>
+
+<h2>The usage.json fallback</h2>
+<p>Not every agent runtime writes Claude Code's own transcript format. Some keep a simpler sidecar file instead - a flat <code class="inline">{skill_name: {"use_count": N}}</code> map. haunt reads one of these automatically if it finds <code class="inline">.usage.json</code> next to the scanned directory, or you can point it at one explicitly with <code class="inline">--usage-file</code>.</p>
+
+<h2>Why no LLM calls</h2>
+<p>Every check here is a deterministic fact about files that already exist on disk: a link resolves or it doesn't, a name is duplicated or it isn't, a skill was invoked N times or zero times. There is nothing here that benefits from a model's judgment, and adding one would only add cost, latency, and a source of non-determinism to a tool whose entire value is that the same input always produces the same answer.</p>
+
+<div class="page-nav">
+  <a href="cli-reference.html">← CLI reference</a>
+</div>
+
+    <footer class="page-footer">github.com/DavesarXKhushal/haunt</footer>
+  </main>
+</div>
+</body>
+</html>

@@ -3,137 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>haunt -- find the skills haunting your context window</title>
-<meta name="description" content="haunt audits Claude Code skills against real session transcripts, not guesses. Catches ghost skills, broken references, and duplicate names.">
+<title>Find the skills haunting your context window - haunt docs</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<nav class="nav">
-  <div class="nav-brand"><span class="mark"></span> haunt</div>
-  <div class="nav-links">
-    <a href="#problem">Problem</a>
-    <a href="#how">How it works</a>
-    <a href="#numbers">The numbers</a>
-    <a href="#docs">Docs</a>
-    <a href="https://github.com/DavesarXKhushal/haunt">GitHub</a>
+<div class="topbar">
+  <a class="topbar-brand" href="index.html"><span class="mark"></span>haunt</a>
+  <div class="topbar-right">
+    <a href="docs/quickstart.html">Docs</a>
+    <a class="gh" href="https://github.com/DavesarXKhushal/haunt">GitHub</a>
   </div>
-</nav>
-
-<main class="wrap">
-  <section class="hero">
-    <h1>Find the skills haunting<br>your context window.</h1>
-    <p class="lede">
-      haunt audits a Claude Code skills directory against what actually
-      happened -- not a guess. It cross-references every installed
-      <code class="inline">SKILL.md</code> with your own session history.
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#docs">Get started</a>
-      <a class="btn btn-ghost" href="https://github.com/DavesarXKhushal/haunt">View on GitHub</a>
-    </div>
-    <div class="terminal">
-      <pre>$ haunt .claude/skills
+</div>
+<div class="layout">
+  <nav class="sidebar"><div class="group"><div class="group-label">Overview</div><a class="link active" href="index.html">Introduction</a></div><div class="group"><div class="group-label">Docs</div><a class="link" href="docs/quickstart.html">Quickstart</a><a class="link" href="docs/cli-reference.html">CLI reference</a><a class="link" href="docs/how-it-works.html">How it works</a></div></nav>
+  <main class="content">
+    <h1>Find the skills haunting your context window</h1>
+    <p class="subtitle">haunt audits a Claude Code skills directory against what actually happened, not against a guess.</p>
+    
+<div class="hero">
+<pre><span class="term-line-dim">$</span> haunt .claude/skills
 
 haunt scanned 42 skill(s), matched against 310 real invocation(s)
 
-  <span class="err-line">error  [broken-reference] deploy: ./scripts/push.sh does not resolve</span>
-  <span class="ghost-line">warn   [ghost-skill] onboarding-flow: never invoked in your session history</span>
-  <span class="ghost-line">warn   [ghost-skill] release-checklist: never invoked in your session history</span>
+  <span class="term-line-err">error  [broken-reference] deploy: ./scripts/push.sh does not resolve</span>
+  <span class="term-line-warn">warn   [ghost-skill] onboarding-flow: never invoked in your session history</span>
+  <span class="term-line-warn">warn   [ghost-skill] release-checklist: never invoked in your session history</span>
 
-<span class="dim">4 of 42 installed skills have never been invoked.</span>
+<span class="term-line-dim">4 of 42 installed skills have never been invoked.</span>
 2 error(s), 2 warning(s).</pre>
-    </div>
-  </section>
+</div>
 
-  <section id="problem">
-    <h2>The problem</h2>
-    <h3>A skill with a good description can still be dead weight.</h3>
-    <p>
-      Every Claude Code skill linter checks structure -- valid frontmatter,
-      a non-empty description, a link that resolves. None of them check
-      whether the skill has ever actually fired. A skill can read
-      perfectly, pass every structural check, and still never once get
-      invoked, while silently costing tokens every time its description
-      looks close enough to trigger consideration. Nothing in the file
-      itself tells you that. Your session transcripts do -- haunt reads
-      them.
-    </p>
-  </section>
+<div class="btn-row">
+  <a class="btn btn-primary" href="docs/quickstart.html">Get started</a>
+  <a class="btn btn-ghost" href="https://github.com/DavesarXKhushal/haunt">View source</a>
+</div>
 
-  <section id="how">
-    <h2>How it works</h2>
-    <div class="two-col">
-      <div class="card">
-        <h4>Static checks</h4>
-        <p>Parses every <code class="inline">SKILL.md</code>'s frontmatter and body: broken relative links, duplicate skill names, missing or thin descriptions.</p>
-      </div>
-      <div class="card">
-        <h4>Real-usage cross-reference</h4>
-        <p>Reads the JSONL transcripts Claude Code already keeps in <code class="inline">~/.claude/projects</code>, finds every <code class="inline">Skill</code> tool invocation, and matches it against what's installed.</p>
-      </div>
-    </div>
-    <p style="margin-top:20px;color:var(--text-dim);font-size:14px;">
-      No LLM calls, no network access, no account. Deterministic, offline, reads files already on your disk.
-    </p>
-  </section>
+<h2>The problem</h2>
+<p>Every Claude Code skill linter checks structure: valid frontmatter, a description that isn't empty, a link that resolves. None of them check whether a skill has ever actually fired. A skill can read perfectly, pass every structural check, and still never once get invoked, while silently costing tokens whenever its description looks close enough to trigger consideration.</p>
+<p>Nothing in the file itself tells you that. Your session transcripts do - haunt reads them directly.</p>
 
-  <section id="numbers">
-    <h2>The numbers</h2>
-    <h3>We ran it on a live 379-skill production agent.</h3>
-    <p>Hermes, the agent behind LocalHost, has 379 installed skills built up over months of real daily use. Nobody had audited the whole tree end to end before this.</p>
-    <div class="grid">
-      <div class="cell"><span class="num">379</span><span class="label">skills scanned</span></div>
-      <div class="cell"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
-      <div class="cell"><span class="num">121</span><span class="label">never invoked once</span></div>
-    </div>
-    <p style="margin-top:20px;color:var(--text-dim);font-size:14px;">
-      One skill accounted for over 33,000 of those invocations by itself. The run also caught 10 broken file references and 24 descriptions too thin for an agent to route on.
-    </p>
-  </section>
-
-  <section id="docs">
-    <h2>Docs</h2>
-    <h3>Install</h3>
-    <pre>pip install haunt
-# or, with no install:
-uvx haunt /path/to/skills</pre>
-
-    <h3 style="margin-top:32px;">Flags</h3>
-    <table>
-      <tr><th>Flag</th><th>Effect</th></tr>
-      <tr><td><code class="inline">--projects &lt;dir&gt;</code></td><td>Claude Code transcripts directory (default: <code class="inline">~/.claude/projects</code>)</td></tr>
-      <tr><td><code class="inline">--usage-file &lt;file&gt;</code></td><td>a <code class="inline">.usage.json</code> sidecar, for runtimes that keep one instead of transcripts</td></tr>
-      <tr><td><code class="inline">--json</code></td><td>machine-readable output for CI</td></tr>
-      <tr><td><code class="inline">--fail-on-ghosts</code></td><td>non-zero exit if any skill has zero real invocations</td></tr>
-    </table>
-
-    <h3 style="margin-top:32px;">Checks</h3>
-    <table>
-      <tr><th>Check</th><th>Source</th><th>What it finds</th></tr>
-      <tr><td><code class="inline">ghost-skill</code></td><td>transcripts</td><td>installed, zero invocations in your session history</td></tr>
-      <tr><td><code class="inline">hallucinated-invocation</code></td><td>transcripts</td><td>invoked by name, no matching SKILL.md exists</td></tr>
-      <tr><td><code class="inline">broken-reference</code></td><td>static</td><td>a relative link that doesn't resolve</td></tr>
-      <tr><td><code class="inline">duplicate-name</code></td><td>static</td><td>two SKILL.md files resolve to the same name</td></tr>
-      <tr><td><code class="inline">missing-description</code></td><td>static</td><td>frontmatter has no description</td></tr>
-      <tr><td><code class="inline">thin-description</code></td><td>static</td><td>description too short for an agent to route on</td></tr>
-    </table>
-
-    <h3 style="margin-top:32px;">CI</h3>
-    <pre>- name: Audit skills
-  run: uvx haunt .claude/skills --fail-on-ghosts</pre>
-
-    <h3 style="margin-top:32px;">As a Claude Code skill</h3>
-    <p style="color:var(--text-dim);font-size:14px;">Drop <code class="inline">skills/haunt/</code> from this repo into your own skills directory and Claude Code will run haunt itself when asked to audit a skill library.</p>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    MIT licensed. Built by <a href="https://github.com/DavesarXKhushal">Khushal Davesar</a>.
-    <a href="https://github.com/DavesarXKhushal/haunt">github.com/DavesarXKhushal/haunt</a>
+<h2>How it works</h2>
+<div class="card-row">
+  <div class="card">
+    <h4>Static checks</h4>
+    <p>Parses every SKILL.md's frontmatter and body: broken relative links, duplicate skill names, missing or thin descriptions.</p>
   </div>
-</footer>
+  <div class="card">
+    <h4>Real-usage cross-reference</h4>
+    <p>Reads the JSONL transcripts Claude Code keeps in ~/.claude/projects, finds every Skill tool invocation, and matches it against what's installed.</p>
+  </div>
+</div>
+<p>No LLM calls, no network access, no account required. Deterministic, offline, reads files already on disk.</p>
 
+<h2>Verified against a real production agent</h2>
+<p>We ran it against a live 379-skill agent built up over months of real daily use. Nobody had audited the whole tree end to end before.</p>
+<div class="grid-cards">
+  <div class="stat-card"><span class="num">379</span><span class="label">skills scanned</span></div>
+  <div class="stat-card"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
+  <div class="stat-card"><span class="num">121</span><span class="label">never invoked once</span></div>
+</div>
+<p>One skill accounted for over 33,000 of those invocations by itself. The same run caught 10 broken file references and 24 descriptions too thin for an agent to route on.</p>
+
+    <footer class="page-footer">github.com/DavesarXKhushal/haunt</footer>
+  </main>
+</div>
 </body>
 </html>
