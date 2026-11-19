@@ -5,8 +5,8 @@ from pathlib import Path
 
 SITE = Path(__file__).parent
 NAV = [
-    ("Overview", [("index.html", "Introduction")]),
-    ("Docs", [
+    ("Overview", "var(--accent)", [("index.html", "Introduction")]),
+    ("Docs", "var(--teal)", [
         ("docs/quickstart.html", "Quickstart"),
         ("docs/cli-reference.html", "CLI reference"),
         ("docs/how-it-works.html", "How it works"),
@@ -17,8 +17,8 @@ NAV = [
 def shell(active_href: str, title: str, subtitle: str, body: str, depth: int = 0) -> str:
     prefix = "../" * depth
     sidebar = ""
-    for group, links in NAV:
-        sidebar += f'<div class="group"><div class="group-label">{group}</div>'
+    for group, color, links in NAV:
+        sidebar += f'<div class="group"><div class="group-label"><span class="dot" style="background:{color}"></span>{group}</div>'
         for href, label in links:
             full = prefix + href
             cls = " active" if href == active_href else ""
@@ -47,7 +47,7 @@ def shell(active_href: str, title: str, subtitle: str, body: str, depth: int = 0
     <h1>{title}</h1>
     <p class="subtitle">{subtitle}</p>
     {body}
-    <footer class="page-footer">github.com/DavesarXKhushal/haunt</footer>
+    <footer class="page-footer"><a href="https://github.com/DavesarXKhushal/haunt">GitHub</a></footer>
   </main>
 </div>
 </body>
@@ -61,6 +61,7 @@ PAGES["index.html"] = (0, "index.html", "Find the skills haunting your context w
     "haunt audits a Claude Code skills directory against what actually happened, not against a guess.",
     """
 <div class="hero">
+<div class="hero-glow"></div>
 <pre><span class="term-line-dim">$</span> haunt .claude/skills
 
 haunt scanned 42 skill(s), matched against 310 real invocation(s)
@@ -85,11 +86,11 @@ haunt scanned 42 skill(s), matched against 310 real invocation(s)
 <h2>How it works</h2>
 <div class="card-row">
   <div class="card">
-    <h4>Static checks</h4>
+    <h4><span class="badge badge-static">static</span> Structural checks</h4>
     <p>Parses every SKILL.md's frontmatter and body: broken relative links, duplicate skill names, missing or thin descriptions.</p>
   </div>
-  <div class="card">
-    <h4>Real-usage cross-reference</h4>
+  <div class="card blue">
+    <h4><span class="badge badge-transcripts">transcripts</span> Real-usage cross-reference</h4>
     <p>Reads the JSONL transcripts Claude Code keeps in ~/.claude/projects, finds every Skill tool invocation, and matches it against what's installed.</p>
   </div>
 </div>
@@ -99,8 +100,8 @@ haunt scanned 42 skill(s), matched against 310 real invocation(s)
 <p>We ran it against a live 379-skill agent built up over months of real daily use. Nobody had audited the whole tree end to end before.</p>
 <div class="grid-cards">
   <div class="stat-card"><span class="num">379</span><span class="label">skills scanned</span></div>
-  <div class="stat-card"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
-  <div class="stat-card"><span class="num">121</span><span class="label">never invoked once</span></div>
+  <div class="stat-card alt"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
+  <div class="stat-card warn"><span class="num">121</span><span class="label">never invoked once</span></div>
 </div>
 <p>One skill accounted for over 33,000 of those invocations by itself. The same run caught 10 broken file references and 24 descriptions too thin for an agent to route on.</p>
 """)
@@ -157,12 +158,12 @@ PAGES["docs/cli-reference.html"] = (1, "docs/cli-reference.html", "CLI reference
 <h2>Checks</h2>
 <table>
 <tr><th>Check</th><th>Source</th><th>What it finds</th></tr>
-<tr><td><code class="inline">ghost-skill</code></td><td>transcripts</td><td>installed, zero invocations in your session history</td></tr>
-<tr><td><code class="inline">hallucinated-invocation</code></td><td>transcripts</td><td>invoked by name, no matching SKILL.md exists</td></tr>
-<tr><td><code class="inline">broken-reference</code></td><td>static</td><td>a relative link in a skill body that doesn't resolve</td></tr>
-<tr><td><code class="inline">duplicate-name</code></td><td>static</td><td>two SKILL.md files resolve to the same skill name</td></tr>
-<tr><td><code class="inline">missing-description</code></td><td>static</td><td>frontmatter has no description at all</td></tr>
-<tr><td><code class="inline">thin-description</code></td><td>static</td><td>description too short for an agent to route on</td></tr>
+<tr><td><code class="inline">ghost-skill</code></td><td><span class="badge badge-transcripts">transcripts</span></td><td>installed, zero invocations in your session history</td></tr>
+<tr><td><code class="inline">hallucinated-invocation</code></td><td><span class="badge badge-transcripts">transcripts</span></td><td>invoked by name, no matching SKILL.md exists</td></tr>
+<tr><td><code class="inline">broken-reference</code></td><td><span class="badge badge-static">static</span></td><td>a relative link in a skill body that doesn't resolve</td></tr>
+<tr><td><code class="inline">duplicate-name</code></td><td><span class="badge badge-static">static</span></td><td>two SKILL.md files resolve to the same skill name</td></tr>
+<tr><td><code class="inline">missing-description</code></td><td><span class="badge badge-static">static</span></td><td>frontmatter has no description at all</td></tr>
+<tr><td><code class="inline">thin-description</code></td><td><span class="badge badge-static">static</span></td><td>description too short for an agent to route on</td></tr>
 </table>
 
 <h2>Exit codes</h2>
