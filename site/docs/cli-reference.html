@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="layout">
-  <nav class="sidebar"><div class="group"><div class="group-label"><span class="dot" style="background:var(--accent)"></span>Overview</div><a class="link" href="../index.html">Introduction</a></div><div class="group"><div class="group-label"><span class="dot" style="background:var(--teal)"></span>Docs</div><a class="link" href="../docs/quickstart.html">Quickstart</a><a class="link active" href="../docs/cli-reference.html">CLI reference</a><a class="link" href="../docs/how-it-works.html">How it works</a></div></nav>
+  <nav class="sidebar"><div class="group"><div class="group-label">Overview</div><a class="link" href="../index.html">Introduction</a></div><div class="group"><div class="group-label">Docs</div><a class="link" href="../docs/quickstart.html">Quickstart</a><a class="link active" href="../docs/cli-reference.html">CLI reference</a><a class="link" href="../docs/how-it-works.html">How it works</a></div></nav>
   <main class="content">
     <h1>CLI reference</h1>
     <p class="subtitle">Every flag and every check haunt runs.</p>
@@ -36,12 +36,12 @@
 <h2>Checks</h2>
 <table>
 <tr><th>Check</th><th>Source</th><th>What it finds</th></tr>
-<tr><td><code class="inline">ghost-skill</code></td><td><span class="badge badge-transcripts">transcripts</span></td><td>installed, zero invocations in your session history</td></tr>
-<tr><td><code class="inline">hallucinated-invocation</code></td><td><span class="badge badge-transcripts">transcripts</span></td><td>invoked by name, no matching SKILL.md exists</td></tr>
-<tr><td><code class="inline">broken-reference</code></td><td><span class="badge badge-static">static</span></td><td>a relative link in a skill body that doesn't resolve</td></tr>
-<tr><td><code class="inline">duplicate-name</code></td><td><span class="badge badge-static">static</span></td><td>two SKILL.md files resolve to the same skill name</td></tr>
-<tr><td><code class="inline">missing-description</code></td><td><span class="badge badge-static">static</span></td><td>frontmatter has no description at all</td></tr>
-<tr><td><code class="inline">thin-description</code></td><td><span class="badge badge-static">static</span></td><td>description too short for an agent to route on</td></tr>
+<tr><td><code class="inline">ghost-skill</code></td><td><span class="badge">transcripts</span></td><td>installed, zero invocations in your session history</td></tr>
+<tr><td><code class="inline">hallucinated-invocation</code></td><td><span class="badge">transcripts</span></td><td>invoked by name, no matching SKILL.md exists</td></tr>
+<tr><td><code class="inline">broken-reference</code></td><td><span class="badge">static</span></td><td>a relative link in a skill body that doesn't resolve</td></tr>
+<tr><td><code class="inline">duplicate-name</code></td><td><span class="badge">static</span></td><td>two SKILL.md files resolve to the same skill name</td></tr>
+<tr><td><code class="inline">missing-description</code></td><td><span class="badge">static</span></td><td>frontmatter has no description at all</td></tr>
+<tr><td><code class="inline">thin-description</code></td><td><span class="badge">static</span></td><td>description too short for an agent to route on</td></tr>
 </table>
 
 <h2>Exit codes</h2>

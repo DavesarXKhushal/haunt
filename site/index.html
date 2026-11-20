@@ -15,13 +15,12 @@
   </div>
 </div>
 <div class="layout">
-  <nav class="sidebar"><div class="group"><div class="group-label"><span class="dot" style="background:var(--accent)"></span>Overview</div><a class="link active" href="index.html">Introduction</a></div><div class="group"><div class="group-label"><span class="dot" style="background:var(--teal)"></span>Docs</div><a class="link" href="docs/quickstart.html">Quickstart</a><a class="link" href="docs/cli-reference.html">CLI reference</a><a class="link" href="docs/how-it-works.html">How it works</a></div></nav>
+  <nav class="sidebar"><div class="group"><div class="group-label">Overview</div><a class="link active" href="index.html">Introduction</a></div><div class="group"><div class="group-label">Docs</div><a class="link" href="docs/quickstart.html">Quickstart</a><a class="link" href="docs/cli-reference.html">CLI reference</a><a class="link" href="docs/how-it-works.html">How it works</a></div></nav>
   <main class="content">
     <h1>Find the skills haunting your context window</h1>
     <p class="subtitle">haunt audits a Claude Code skills directory against what actually happened, not against a guess.</p>
     
 <div class="hero">
-<div class="hero-glow"></div>
 <pre><span class="term-line-dim">$</span> haunt .claude/skills
 
 haunt scanned 42 skill(s), matched against 310 real invocation(s)
@@ -46,11 +45,11 @@ haunt scanned 42 skill(s), matched against 310 real invocation(s)
 <h2>How it works</h2>
 <div class="card-row">
   <div class="card">
-    <h4><span class="badge badge-static">static</span> Structural checks</h4>
+    <h4><span class="badge">static</span> Structural checks</h4>
     <p>Parses every SKILL.md's frontmatter and body: broken relative links, duplicate skill names, missing or thin descriptions.</p>
   </div>
-  <div class="card blue">
-    <h4><span class="badge badge-transcripts">transcripts</span> Real-usage cross-reference</h4>
+  <div class="card">
+    <h4><span class="badge">transcripts</span> Real-usage cross-reference</h4>
     <p>Reads the JSONL transcripts Claude Code keeps in ~/.claude/projects, finds every Skill tool invocation, and matches it against what's installed.</p>
   </div>
 </div>
@@ -60,8 +59,8 @@ haunt scanned 42 skill(s), matched against 310 real invocation(s)
 <p>We ran it against a live 379-skill agent built up over months of real daily use. Nobody had audited the whole tree end to end before.</p>
 <div class="grid-cards">
   <div class="stat-card"><span class="num">379</span><span class="label">skills scanned</span></div>
-  <div class="stat-card alt"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
-  <div class="stat-card warn"><span class="num">121</span><span class="label">never invoked once</span></div>
+  <div class="stat-card"><span class="num">42,639</span><span class="label">real invocations matched</span></div>
+  <div class="stat-card"><span class="num">121</span><span class="label">never invoked once</span></div>
 </div>
 <p>One skill accounted for over 33,000 of those invocations by itself. The same run caught 10 broken file references and 24 descriptions too thin for an agent to route on.</p>
 
